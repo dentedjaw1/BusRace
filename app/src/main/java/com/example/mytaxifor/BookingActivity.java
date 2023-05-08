@@ -13,11 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class BookingActivity extends AppCompatActivity {
 
@@ -28,7 +31,8 @@ public class BookingActivity extends AppCompatActivity {
     private String name;
     private String phone;
 
-
+    private TextView carColorTextView,timeTextView, dateTextView, sitNumberTextView,sitNumberBookingTextView;
+    String carColor, time, date, sitNumber,sitNumberBooking,whereFrom,whereToGo;
 
     private Button bookButton;
 
@@ -44,30 +48,30 @@ public class BookingActivity extends AppCompatActivity {
 
             // получаем переданные данные
             Intent intent = getIntent();
-            String carColor = intent.getStringExtra("carColor");
-            String time = intent.getStringExtra("time");
-            String date = intent.getStringExtra("date");
-            String sitNumber = intent.getStringExtra("sitNumber");
-            String sitNumberBooking = intent.getStringExtra("sitNumberBooking");
-            String whereFrom = intent.getStringExtra("whereFrom");
-            String whereToGo = intent.getStringExtra("whereToGo");
+            carColor = intent.getStringExtra("carColor");
+            time = intent.getStringExtra("time");
+            date = intent.getStringExtra("date");
+            sitNumber = intent.getStringExtra("sitNumber");
+            sitNumberBooking = intent.getStringExtra("sitNumberBooking");
+            whereFrom = intent.getStringExtra("whereFrom");
+            whereToGo = intent.getStringExtra("whereToGo");
 
 
 
             // отображаем данные в TextView
-            TextView carColorTextView = findViewById(R.id.car_color_text_view);
+            carColorTextView = findViewById(R.id.car_color_text_view);
             carColorTextView.setText(carColor);
 
-            TextView timeTextView = findViewById(R.id.time_text_view);
+            timeTextView = findViewById(R.id.time_text_view);
             timeTextView.setText(time);
 
-            TextView dateTextView = findViewById(R.id.date_text_view);
+            dateTextView = findViewById(R.id.date_text_view);
             dateTextView.setText(date);
 
-            TextView sitNumberTextView = findViewById(R.id.sit_number_text_view);
+            sitNumberTextView = findViewById(R.id.sit_number_text_view);
             sitNumberTextView.setText(sitNumber);
 
-            TextView sitNumberBookingTextView = findViewById(R.id.sit_number_booking_text_view);
+            sitNumberBookingTextView = findViewById(R.id.sit_number_booking_text_view);
             sitNumberBookingTextView.setText(sitNumberBooking);
 
 
@@ -98,6 +102,22 @@ public class BookingActivity extends AppCompatActivity {
                 .setPositiveButton("Бронировать", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // Получаем ссылку на базу данных
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                        // Добавляем ДАННЫЕ в базу данных
+                        HashMap<String, Object> userMap = new HashMap<>();
+//                        userMap.put("uid",mAuth.getCurrentUser().getUid());
+                        userMap.put("WhereFrom", whereFrom.toString());
+                        userMap.put("WhereToGo",whereToGo.toString());
+                        userMap.put("Date",date.toString());
+                        userMap.put("Time",time.toString());
+                        userMap.put("Phone",phone.toString());
+
+                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).updateChildren(userMap);
+
+                        // Добавляем объект Booking в базу данных
+//                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).push().setValue();
 
                         Toast.makeText(BookingActivity.this, "Бронирование подвержденно", Toast.LENGTH_SHORT).show();
                     }
