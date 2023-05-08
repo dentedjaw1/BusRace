@@ -32,7 +32,7 @@ public class SerchActivity extends AppCompatActivity {
     private Spinner spinnerChild;
     private Spinner spinnerThird;
 
-    private Button customerLogoutButton, settingsButton;
+    private Button customerLogoutButton, settingsButton,customerRacesButton;
     private FirebaseAuth mAuth;
 
     String selectedRace;
@@ -59,6 +59,7 @@ public class SerchActivity extends AppCompatActivity {
 
         customerLogoutButton = (Button)findViewById(R.id.customer_logout_button);
         settingsButton = (Button) findViewById(R.id.customer_settings_button);
+        customerRacesButton = (Button) findViewById(R.id.customer_races_button);
 
         spinnerRace = findViewById(R.id.spinner_Race);
         spinnerChild = findViewById(R.id.spinner_Child);
@@ -88,6 +89,16 @@ public class SerchActivity extends AppCompatActivity {
             }
         });
 
+        customerRacesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SerchActivity.this, UserBookedActivity.class);
+                //чтобы приложение понимало, что зашло с экрана пользователя
+                intent.putExtra("type", "Customers");
+                startActivity(intent);
+            }
+        });
+
         customerLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +106,9 @@ public class SerchActivity extends AppCompatActivity {
                 LogoutCustomer();
             }
         });
+
+
+
 
 
 
@@ -197,6 +211,7 @@ public class SerchActivity extends AppCompatActivity {
 
                             // получаем информацию из дочернего узла
                             final String carColor = thirdSnapshot.child("CarColor").getValue(String.class);
+                            final String carNumber = thirdSnapshot.child("CarNumber").getValue(String.class);
                             final String time = thirdSnapshot.child("Time").getValue(String.class);
                             final String date = thirdSnapshot.child("Date").getValue(String.class);
                             final String sitNumber = thirdSnapshot.child("SitNumber").getValue(String.class);
@@ -239,6 +254,7 @@ public class SerchActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     Intent intent = new Intent(getApplicationContext(), BookingActivity.class);
                                     intent.putExtra("carColor", carColor);
+                                    intent.putExtra("carNumber", carNumber);
                                     intent.putExtra("time", time);
                                     intent.putExtra("date", date);
                                     intent.putExtra("sitNumber", sitNumber);

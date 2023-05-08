@@ -132,9 +132,9 @@ public class SettingsActivity extends AppCompatActivity {
             userMap.put("name", nameET.getText().toString());
             userMap.put("phone",phoneET.getText().toString());
 
-            if (getType.equals("Drivers")){
-                userMap.put("carname",carET.getText().toString());
-            }
+//            if (getType.equals("Drivers")){
+//                userMap.put("carname",carET.getText().toString());
+//            }
 
             databaseReference.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
 

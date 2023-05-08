@@ -32,7 +32,7 @@ public class BookingActivity extends AppCompatActivity {
     private String phone;
 
     private TextView carColorTextView,timeTextView, dateTextView, sitNumberTextView,sitNumberBookingTextView;
-    String carColor, time, date, sitNumber,sitNumberBooking,whereFrom,whereToGo;
+    String carColor, time, date, sitNumber,sitNumberBooking,whereFrom,whereToGo,carNumber;
 
     private Button bookButton;
 
@@ -49,6 +49,7 @@ public class BookingActivity extends AppCompatActivity {
             // получаем переданные данные
             Intent intent = getIntent();
             carColor = intent.getStringExtra("carColor");
+            carNumber = intent.getStringExtra("carNumber");
             time = intent.getStringExtra("time");
             date = intent.getStringExtra("date");
             sitNumber = intent.getStringExtra("sitNumber");
@@ -105,19 +106,33 @@ public class BookingActivity extends AppCompatActivity {
                         // Получаем ссылку на базу данных
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-                        // Добавляем ДАННЫЕ в базу данных
+
+
+                        // Добавляем ДАННЫЕ в RACE в базу данных
+                        HashMap<String, Object> raceMap = new HashMap<>();
+//                        userMap.put("uid",mAuth.getCurrentUser().getUid());
+                        raceMap.put("WhereFrom", whereFrom.toString());
+                        raceMap.put("WhereToGo",whereToGo.toString());
+                        raceMap.put("Date",date.toString());
+                        raceMap.put("Time",time.toString());
+                        raceMap.put("Phone",phone.toString());
+
+                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).updateChildren(raceMap);
+
+
+                        // Добавляем ДАННЫЕ в RACE в базу данных
                         HashMap<String, Object> userMap = new HashMap<>();
 //                        userMap.put("uid",mAuth.getCurrentUser().getUid());
                         userMap.put("WhereFrom", whereFrom.toString());
                         userMap.put("WhereToGo",whereToGo.toString());
                         userMap.put("Date",date.toString());
                         userMap.put("Time",time.toString());
-                        userMap.put("Phone",phone.toString());
+                        userMap.put("CarColor",carColor.toString());
+                        userMap.put("CarNumber",carNumber.toString());
 
-                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).updateChildren(userMap);
 
                         // Добавляем объект Booking в базу данных
-//                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).push().setValue();
+                        databaseReference.child("Users").child(getType).child(mAuth.getCurrentUser().getUid()).child("Booking").child(date).updateChildren(userMap);
 
                         Toast.makeText(BookingActivity.this, "Бронирование подвержденно", Toast.LENGTH_SHORT).show();
                     }
