@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MyTaxiFor</string>
+    <string name="singIn">Войти</string>
+    <string name="driverStatus">Войти как водитель</string>
+    <string name="customerStatus">Войти как клиент</string>
+    <string name="accountQuestion">Вы хотите быть водителем, а у вас нет аккаунта? Зарегистрируй его!</string>
+    <string name="accountQuestionCustomer">У вас нет аккаунта? Зарегистрируй его!</string>
+    <string name="singUp">Регистрация</string>
+    <string name="title_activity_drivers_map">DriversMapActivity</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_customers_map">CustomersMapActivity</string>
+    <string name="register">REGISTER</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_login_hint">Already have an account? Sign In</string>
+    <string name="login_signup_hint">Don\'t have an account? Sign Up</string>
+</resources>

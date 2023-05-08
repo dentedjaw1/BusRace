@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Цвет заливки -->
+    <solid android:color="#F44336" />
+    <corners
+        android:radius="5dip" />
+    <padding
+        android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp"
+        />
+    <!--  Ширина границы,Длина каждой пунктирной линии, а также интервал и цвет между двумя пунктирными линиями. -->
+    <stroke
+        android:width="2dp"
+        android:dashWidth="6dp"
+        android:dashGap="6dp"
+        android:color="#e75050" />
+</selector>

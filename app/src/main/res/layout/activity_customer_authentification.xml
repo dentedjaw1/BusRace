@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/whiteCardColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomerAuthenticator">
+    <ScrollView
+        style="@style/parent">
+
+        <RelativeLayout
+            style="@style/parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:weightSum="12">
+
+                <LinearLayout
+                    style="@style/parent"
+                    android:background="@drawable/login_shape_bk"
+                    android:orientation="vertical"
+                    android:layout_weight="3">
+
+                    <ImageView
+                        style="@style/parent"
+                        android:background="@drawable/ic_login_bk"
+                        android:contentDescription="login background" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp">
+
+
+                <TextView
+                    style="@style/headerText"
+                    android:layout_gravity="center"
+                    android:text="Taxi"
+                    android:layout_marginTop="40dp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+    <EditText
+        android:paddingLeft="10dp"
+        android:id="@+id/customerEmail"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/statusCustomer"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/login_shape_tk"
+        android:ems="10"
+        android:hint="customer@gmail.com"
+        android:inputType="textEmailAddress"
+        android:isScrollContainer="false"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/customerPassword"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/customerEmail"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_shape_bk"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:minHeight="48dp"
+        android:paddingLeft="10dp"/>
+
+    <Button
+        android:id="@+id/signInCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/customerPassword"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        android:text="@string/singIn" />
+
+    <TextView
+        android:id="@+id/accountCreateCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/signInCustomer"
+        android:textColor="@color/black"
+        android:layout_marginTop="30dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="@string/accountQuestionCustomer" />
+
+    <Button
+        android:id="@+id/singUpCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/accountCreateCustomer"
+        android:backgroundTint="@color/purple_200"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        android:text="@string/singUp" />
+
+    <TextView
+        android:id="@+id/statusCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="@string/customerStatus" />
+</RelativeLayout>

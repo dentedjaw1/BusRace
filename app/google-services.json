@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1002527227498",
+    "firebase_url": "https://newbusdiplom-default-rtdb.firebaseio.com",
+    "project_id": "newbusdiplom",
+    "storage_bucket": "newbusdiplom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002527227498:android:beb9f6c1ae2db973bcd413",
+        "android_client_info": {
+          "package_name": "com.example.mytaxifor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002527227498-o6gja8qc3s7aq95rgbflv26ubu144ngl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUjAeCkib7nkMQF3WI6s643FlSAVQLBnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002527227498-o6gja8qc3s7aq95rgbflv26ubu144ngl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomersMapActivity"
+    >
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+
+        />
+
+    <RelativeLayout
+        android:id="@+id/rel1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/customer_order_button"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/driver_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/driver_photo"
+            android:text="Водитель"
+            android:textColor="@android:color/white"
+            android:textSize="16dp" />
+
+
+        <TextView
+            android:id="@+id/driver_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/driver_name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/driver_photo"
+            android:text="Телефон водителя"
+            android:textColor="@android:color/white"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/driver_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/driver_phone_number"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/driver_photo"
+            android:text="Марка автомобиля"
+            android:textColor="@android:color/white"
+            android:textSize="16dp" />
+
+        <ImageView
+            style="@style/parent"
+            android:background="@drawable/ic_login_bk_2"
+            android:contentDescription="login background" />
+
+        <ImageView
+            android:id="@+id/call_to_driver"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/phone"
+            app:tint="@color/white" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/driver_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/image_customer" />
+
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/customer_settings_button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Настройки"
+        android:background="@drawable/login_shape_1"
+        android:textColor="@color/white"
+        android:layout_alignParentStart="true"
+        android:stateListAnimator="@null"/>
+
+    <Button
+        android:id="@+id/customer_logout_button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="Выйти"
+        android:background="@drawable/login_shape_2"
+        android:textColor="@color/white"
+        android:layout_alignParentEnd="true"
+        android:stateListAnimator="@null"/>
+
+    <Button
+        android:id="@+id/customer_order_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Вызвать такси"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".CustomersMapActivity"-->
+<!--    android:background="@color/design_default_color_primary_dark">-->
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/map"-->
+<!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="50dp"/>-->
+
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rel1"-->
+<!--        android:background="@color/colorPrimary"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:layout_above="@+id/customer_order_button"-->
+<!--        >-->
+
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:id="@+id/driver_photo"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_margin="5dp"-->
+<!--            android:src="@drawable/image_customer"-->
+<!--            />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/driver_name"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_toEndOf="@+id/driver_photo"-->
+<!--            android:text="Водитель"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:textSize="16dp"-->
+<!--            />-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/driver_phone_number"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/driver_name"-->
+<!--            android:layout_toEndOf="@+id/driver_photo"-->
+<!--            android:text="Телефон водителя"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:textSize="16dp"-->
+<!--            />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/driver_car"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/driver_phone_number"-->
+<!--            android:layout_toEndOf="@+id/driver_photo"-->
+<!--            android:text="Марка автомобиля"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:textSize="16dp"-->
+<!--            />-->
+
+
+<!--        <ImageView-->
+<!--            android:id="@+id/call_to_driver"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:src="@drawable/phone"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            app:tint="@color/white" />-->
+
+
+<!--    </RelativeLayout>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/customer_settings_button"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:text="Настройки"-->
+<!--        android:backgroundTint="@color/design_default_color_primary_dark"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_alignParentStart="true"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/customer_logout_button"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:text="Выйти"-->
+<!--        android:backgroundTint="@color/design_default_color_primary_dark"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_alignParentEnd="true"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/customer_order_button"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:text="Вызвать такси"-->
+<!--        android:backgroundTint="@color/design_default_color_primary_dark"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_alignParentBottom="true"/>-->
+<!--</RelativeLayout>-->
+
+
+
