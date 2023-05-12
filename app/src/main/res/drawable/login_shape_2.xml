@@ -7,10 +7,13 @@
         android:topRightRadius="0dp"
         />
     <solid
-        android:color="#00a5ff"
+
+        android:color="#3D8EB9"
         />
     <size
         android:width="182dp"
         android:height="54dp"
         />
 </shape>
+
+<!--    android:color="#00a5ff"-->

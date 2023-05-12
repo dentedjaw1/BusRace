@@ -1,15 +1,19 @@
 package com.example.mytaxifor;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,12 +23,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.HashMap;
+
 public class UserBookedActivity extends AppCompatActivity {
 
     private String getType;
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
+
+    private String name;
+    private String phone;
+    String sitNumber,sitNumberBooking;
+//    String sitnumberNum;
+
+//    String whereToGo,whereFrom,date, time,carNumber,carColor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +49,8 @@ public class UserBookedActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+
 
 
 
@@ -60,11 +76,41 @@ public class UserBookedActivity extends AppCompatActivity {
                     final String carNumber = thirdSnapshot.child("CarNumber").getValue(String.class);
                     final String time = thirdSnapshot.child("Time").getValue(String.class);
                     final String date = thirdSnapshot.child("Date").getValue(String.class);
-//                    final String sitNumber = thirdSnapshot.child("SitNumber").getValue(String.class);
-//                    final String  sitNumberBooking = thirdSnapshot.child("SitNumberBooking").getValue(String.class);
+
                     final String whereFrom = thirdSnapshot.child("WhereFrom").getValue(String.class);
                     final String whereToGo = thirdSnapshot.child("WhereToGo").getValue(String.class);
 
+//                     carColor = thirdSnapshot.child("CarColor").getValue(String.class);
+//                     carNumber = thirdSnapshot.child("CarNumber").getValue(String.class);
+//                     time = thirdSnapshot.child("Time").getValue(String.class);
+//                     date = thirdSnapshot.child("Date").getValue(String.class);
+//
+//                     whereFrom = thirdSnapshot.child("WhereFrom").getValue(String.class);
+//                     whereToGo = thirdSnapshot.child("WhereToGo").getValue(String.class);
+
+
+                    final String[] sitnumberNum = new String[1];
+
+                    databaseReference.child("Races").child(whereFrom).child(whereToGo).child(date).child(time).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                             sitnumberNum[0] = dataSnapshot.child("SitNumberBooking").getValue(String.class);
+                            // сохраняем значение в переменную
+//                            TextView cView = new TextView(getApplicationContext());
+//                            cView.setText("Цвет машины: " + sitnumberNum[0]);
+//                            cView.setTextSize(16);
+//                            infoBlock.addView(cView);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // обработка ошибки
+                        }
+                    });
+
+
+                    getUserInformation();
 
                     // создаем элементы для отображения информации
                     TextView whereView = new TextView(getApplicationContext());
@@ -88,29 +134,90 @@ public class UserBookedActivity extends AppCompatActivity {
                     colorView.setTextSize(16);
                     infoBlock.addView(colorView);
 
-//                    Button infoButton = new Button(getApplicationContext());
-//                    infoButton.setText("Перейти");
-//                    infoBlock.addView(infoButton);
+
+//                    TextView cView = new TextView(getApplicationContext());
+//                    cView.setText("Цвет машины: " + sitnumberNum);
+//                    cView.setTextSize(16);
+//                    infoBlock.addView(cView);
+
+//
+
+                    Button infoButton = new Button(getApplicationContext());
+                    infoButton.setText("Отменить бронирование");
+                    infoBlock.addView(infoButton);
 
                     // добавляем блок с информацией в контейнер
                     infoContainer.addView(infoBlock);
-//
-//                    infoButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(getApplicationContext(), BookingActivity.class);
-//                            intent.putExtra("carColor", carColor);
-//                            intent.putExtra("carNumber", carNumber);
-//                            intent.putExtra("time", time);
-//                            intent.putExtra("date", date);
-////                            intent.putExtra("sitNumber", sitNumber);
-////                            intent.putExtra("sitNumberBooking", sitNumberBooking);
-//                            intent.putExtra("whereFrom", whereFrom);
-//                            intent.putExtra("whereToGo", whereToGo);
-//                            intent.putExtra("type", "Customers");
-//                            startActivity(intent);
-//                        }
-//                    });
+
+                    infoButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            infoButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(UserBookedActivity.this);
+                                    builder.setMessage("Вы хотите ОТМЕНИТЬ бронирование на " + date+ "?")
+                                            .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Получаем ссылку на базу данных
+
+
+
+                                                    //прибавляем один, так как произошла отменили бронирование
+                                                   int  sitNumberBookingPlus = Integer.parseInt(sitnumberNum[0]);
+                                                    sitNumberBookingPlus =  sitNumberBookingPlus + 1;
+                                                    String sitNumberBookingPlusString = Integer.toString(sitNumberBookingPlus);
+
+//                                                    TextView numView = new TextView(getApplicationContext());
+//                                                        numView.setText("Цвет машины: " + sitNumberBooking);
+//                                                        numView.setTextSize(16);
+//                                                        infoBlock.addView(numView);
+
+                                                    // Добавляем ДАННЫЕ в RACES в базу данных
+                                                    HashMap<String, Object> rasessMap = new HashMap<>();
+//                        userMap.put("uid",mAuth.getCurrentUser().getUid());
+                                                    rasessMap.put("WhereFrom", whereFrom.toString());//8
+                                                    rasessMap.put("WhereToGo",whereToGo.toString()); //7
+                                                    rasessMap.put("Date",date.toString()); //3
+                                                    rasessMap.put("Time",time.toString());//6
+                                                    rasessMap.put("CarColor",carColor.toString()); //1
+                                                    rasessMap.put("CarNumber",carNumber.toString()); //2
+//                                                    rasessMap.put("SitNumber",sitNumber.toString()); //4
+                                                    rasessMap.put("SitNumberBooking",sitNumberBookingPlusString.toString()); //5
+
+
+
+                                                    // Добавляем объект rasesMap в базу данных
+                                                    databaseReference.child("Races").child(whereFrom).child(whereToGo).child(date).child(time).updateChildren(rasessMap);
+
+
+
+                                                    databaseReference.child("Users").child("Customers").child(mAuth.getCurrentUser().getUid()).child("Booking").child(date).removeValue();
+                                                    databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).removeValue();
+
+                                                    Toast.makeText(UserBookedActivity.this, "Бронирование отменено", Toast.LENGTH_SHORT).show();
+
+                                                    Intent customerIntent = new Intent(UserBookedActivity.this, SerchActivity.class);
+                                                    startActivity(customerIntent);
+                                                }
+                                            })
+                                            .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Ничего не делаем, просто закрываем диалог
+
+                                                }
+                                            });
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
+                            });
+                        }
+                    });
 
 
                 }
@@ -124,8 +231,6 @@ public class UserBookedActivity extends AppCompatActivity {
             }
 
 
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // обработка ошибок при чтении данных из базы Firebase
@@ -134,5 +239,35 @@ public class UserBookedActivity extends AppCompatActivity {
     }
 
 
+    private void getUserInformation() {
+        databaseReference.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+                    if (getType.equals("Customers")) {
+                        name = dataSnapshot.child("name").getValue().toString();
+                        phone = dataSnapshot.child("phone").getValue().toString();
 
-}
+                        // использование переменных name и phone
+//                        TextView nameTextView = findViewById(R.id.name_user);
+//                        nameTextView.setText(name);
+//
+//                        TextView phoneTextView = findViewById(R.id.phone_user);
+//                        phoneTextView.setText(phone);
+
+
+                    }
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+    }

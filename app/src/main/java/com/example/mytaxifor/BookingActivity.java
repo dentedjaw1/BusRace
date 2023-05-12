@@ -31,8 +31,11 @@ public class BookingActivity extends AppCompatActivity {
     private String name;
     private String phone;
 
-    private TextView carColorTextView,timeTextView, dateTextView, sitNumberTextView,sitNumberBookingTextView;
+    private TextView carColorTextView,timeTextView, dateTextView, sitNumberTextView,sitNumberBookingTextView, whereFromView, whereToGoView;
+
     String carColor, time, date, sitNumber,sitNumberBooking,whereFrom,whereToGo,carNumber;
+    String sitNumberBookingMinusString;
+    int sitNumberBookingMinus;
 
     private Button bookButton;
 
@@ -68,12 +71,19 @@ public class BookingActivity extends AppCompatActivity {
 
             dateTextView = findViewById(R.id.date_text_view);
             dateTextView.setText(date);
+//
+//            sitNumberTextView = findViewById(R.id.sit_number_text_view);
+//            sitNumberTextView.setText(sitNumber);
+//
+//            sitNumberBookingTextView = findViewById(R.id.sit_number_booking_text_view);
+//            sitNumberBookingTextView.setText(sitNumberBooking);
 
-            sitNumberTextView = findViewById(R.id.sit_number_text_view);
-            sitNumberTextView.setText(sitNumber);
+            whereFromView = findViewById(R.id.where_from_text_view);
+            whereFromView.setText(whereFrom);
 
-            sitNumberBookingTextView = findViewById(R.id.sit_number_booking_text_view);
-            sitNumberBookingTextView.setText(sitNumberBooking);
+            whereToGoView = findViewById(R.id.where_to_go_text_view);
+            whereToGoView.setText(whereToGo);
+
 
 
         getUserInformation();
@@ -120,7 +130,7 @@ public class BookingActivity extends AppCompatActivity {
                         databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).updateChildren(raceMap);
 
 
-                        // Добавляем ДАННЫЕ в RACE в базу данных
+                        // Добавляем ДАННЫЕ в Users в базу данных
                         HashMap<String, Object> userMap = new HashMap<>();
 //                        userMap.put("uid",mAuth.getCurrentUser().getUid());
                         userMap.put("WhereFrom", whereFrom.toString());
@@ -131,8 +141,31 @@ public class BookingActivity extends AppCompatActivity {
                         userMap.put("CarNumber",carNumber.toString());
 
 
-                        // Добавляем объект Booking в базу данных
+                        // Добавляем объект userMap в базу данных
                         databaseReference.child("Users").child(getType).child(mAuth.getCurrentUser().getUid()).child("Booking").child(date).updateChildren(userMap);
+
+                        //отнимаем один, так как произошла бронь
+                        sitNumberBookingMinus = Integer.parseInt(sitNumberBooking);
+                        sitNumberBookingMinus--;
+
+                        sitNumberBookingMinusString = Integer.toString(sitNumberBookingMinus);
+
+                        // Добавляем ДАННЫЕ в RACES в базу данных
+                        HashMap<String, Object> rasesMap = new HashMap<>();
+//                        userMap.put("uid",mAuth.getCurrentUser().getUid());
+                        rasesMap.put("WhereFrom", whereFrom.toString());//8
+                        rasesMap.put("WhereToGo",whereToGo.toString()); //7
+                        rasesMap.put("Date",date.toString()); //3
+                        rasesMap.put("Time",time.toString());//6
+                        rasesMap.put("CarColor",carColor.toString()); //1
+                        rasesMap.put("CarNumber",carNumber.toString()); //2
+                        rasesMap.put("SitNumber",sitNumber.toString()); //4
+                        rasesMap.put("SitNumberBooking",sitNumberBookingMinusString.toString()); //5
+
+
+                        // Добавляем объект rasesMap в базу данных
+                        databaseReference.child("Races").child(whereFrom).child(whereToGo).child(date).child(time).updateChildren(rasesMap);
+
 
                         Toast.makeText(BookingActivity.this, "Бронирование подвержденно", Toast.LENGTH_SHORT).show();
                     }
@@ -158,11 +191,11 @@ public class BookingActivity extends AppCompatActivity {
                         phone = dataSnapshot.child("phone").getValue().toString();
 
                         // использование переменных name и phone
-                        TextView nameTextView = findViewById(R.id.name_user);
-                        nameTextView.setText(name);
-
-                        TextView phoneTextView = findViewById(R.id.phone_user);
-                        phoneTextView.setText(phone);
+//                        TextView nameTextView = findViewById(R.id.name_user);
+//                        nameTextView.setText(name);
+//
+//                        TextView phoneTextView = findViewById(R.id.phone_user);
+//                        phoneTextView.setText(phone);
 
 
                     }

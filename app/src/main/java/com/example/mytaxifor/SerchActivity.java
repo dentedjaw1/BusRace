@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -117,6 +118,7 @@ public class SerchActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                  selectedRace = listRace.get(position);
+                spinnerRace.setBackgroundColor(Color.parseColor("#3D8EB9"));
 
                 // обновляем второй список на основе выбранного элемента из первого списка
                 databaseReference.child("Races").child(selectedRace).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -155,6 +157,9 @@ public class SerchActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedChild = listChild.get(position);
+//                spinnerChild.setTextColor(Color.WHITE)
+                spinnerChild.setBackgroundColor(Color.parseColor("#3D8EB9"));
+
 
                 // обновляем третий список на основе выбранных элементов первого и второго списков
                 databaseReference.child("Races").child(selectedRace).child(selectedChild).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -166,6 +171,7 @@ public class SerchActivity extends AppCompatActivity {
                             listThird.add(thirdName);
                         }
                         adapterThird.notifyDataSetChanged();
+
                     }
 
 
@@ -190,6 +196,7 @@ public class SerchActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedDate = listThird.get(position);
+                spinnerThird.setBackgroundColor(Color.parseColor("#3D8EB9"));
 
                 // обновляем третий список на основе выбранных элементов первого и второго списков
                 databaseReference.child("Races").child(selectedRace).child(selectedChild).child(selectedDate).addListenerForSingleValueEvent(new ValueEventListener() {

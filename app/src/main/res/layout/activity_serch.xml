@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/greyBack"
     tools:context=".SerchActivity">
 
     <Button
@@ -39,17 +40,22 @@
             android:id="@+id/spinner_Race"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+
+            android:textColor="@color/black"
             />
 
         <Spinner
             android:id="@+id/spinner_Child"
             android:layout_width="match_parent"
+            android:textColor="@color/black"
             android:layout_height="60dp"/>
 
 
         <Spinner
             android:id="@+id/spinner_Third"
             android:layout_width="match_parent"
+            android:textColor="@color/black"
+
             android:layout_height="60dp"/>
 
     </LinearLayout>

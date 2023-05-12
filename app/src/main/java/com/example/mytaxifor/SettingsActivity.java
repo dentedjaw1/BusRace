@@ -85,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(new Intent(SettingsActivity.this, DriversMapActivity.class));
                 }
                 else {
-                    startActivity(new Intent(SettingsActivity.this, CustomersMapActivity.class));
+                    startActivity(new Intent(SettingsActivity.this, SerchActivity.class));
                 }
             }
         });
