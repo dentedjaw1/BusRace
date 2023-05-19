@@ -54,6 +54,7 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     LocationRequest locationRequest;
     Marker  customerMarker, PickUpMarker;
 
+    private String geoDot;
 
     private LatLng driverPosition;
 
@@ -69,11 +70,15 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     private DatabaseReference assignedCustomerRef, AssignedCustomerPositionRef;
     private String driverID, customerID = "";
 
+
+
     private ValueEventListener AssignedCustomerPositionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        geoDot = getIntent().getStringExtra("geoDot");
 
         binding = ActivityDriversMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -114,46 +119,48 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
             }
         });
 
-        getAssignedCustomerRequest();
+
+//        getAssignedCustomerRequest();
     }
 
-    private void getAssignedCustomerRequest() {
-        assignedCustomerRef = FirebaseDatabase.getInstance().getReference()
-                .child("Users").child("Drivers").child(driverID).child("CustomerRideID");
-
-        assignedCustomerRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists())
-                {
-                    //Получение
-                    customerID = snapshot.getValue().toString();
-
-                    //получение местанахождения клиента
-                    getAssignedCustomerPosition();
-                }
-//                else
-//                {
-//                    customerID = "";
-
-//                    if (PickUpMarker != null){
-//                        PickUpMarker.remove();
-//                    }
-
-//                    if (AssignedCustomerPositionListener != null){
-//                        AssignedCustomerPositionRef.removeEventListener(AssignedCustomerPositionListener);
+//    private void getAssignedCustomerRequest() {
+//        assignedCustomerRef = FirebaseDatabase.getInstance().getReference()
+//                .child("Users").child("Drivers").child(driverID).child("CustomerRideID");
 //
-//                    }
+//        assignedCustomerRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists())
+//                {
+//                    //Получение
+//                    customerID = snapshot.getValue().toString();
+//
+//                    //получение местанахождения клиента
+//                    getAssignedCustomerPosition();
 //                }
+////                else
+////                {
+////                    customerID = "";
+//
+////                    if (PickUpMarker != null){
+////                        PickUpMarker.remove();
+////                    }
+//
+////                    if (AssignedCustomerPositionListener != null){
+////                        AssignedCustomerPositionRef.removeEventListener(AssignedCustomerPositionListener);
+////
+////                    }
+////                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     private void getAssignedCustomerPosition() {
         AssignedCustomerPositionRef = FirebaseDatabase.getInstance().getReference().child("Customers Requests")
@@ -273,6 +280,8 @@ public class DriversMapActivity extends FragmentActivity implements OnMapReadyCa
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
 
     @Override
     public void onLocationChanged(@NonNull Location location) {

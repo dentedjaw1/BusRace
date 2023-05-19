@@ -126,6 +126,8 @@ public class BookingActivity extends AppCompatActivity {
                         raceMap.put("Date",date.toString());
                         raceMap.put("Time",time.toString());
                         raceMap.put("Phone",phone.toString());
+                        raceMap.put("Booking","Забронирован");
+
 
                         databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).updateChildren(raceMap);
 

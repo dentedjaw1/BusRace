@@ -407,6 +407,9 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                         txtPhone.setText(phone);
                         txtCarName.setText(carname);
 
+
+
+                    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     //не звони сюда больше
                         callDriver.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -425,7 +428,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
                                 }
                             }
                         });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //                        String carname = dataSnapshot.child("carname").getValue().toString();
 //                        carET.setText(carname);

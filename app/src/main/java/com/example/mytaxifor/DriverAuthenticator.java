@@ -96,7 +96,7 @@ public class DriverAuthenticator extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(DriverAuthenticator.this, "Добро пожаловать!", Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
-                    Intent driverIntent = new Intent(DriverAuthenticator.this, DriversMapActivity.class);
+                    Intent driverIntent = new Intent(DriverAuthenticator.this, DriverSerchMain.class);
                     startActivity(driverIntent);
                 } else {
                     Toast.makeText(DriverAuthenticator.this, "Ошибка регистрации", Toast.LENGTH_SHORT).show();
@@ -122,7 +122,7 @@ public class DriverAuthenticator extends AppCompatActivity {
                             .child("Users").child("Drivers").child(OnlineDriverId);
                     DriverDatabaseRef.setValue(true);//подверждение
 
-                    Intent driverIntent = new Intent(DriverAuthenticator.this, DriversMapActivity.class);
+                    Intent driverIntent = new Intent(DriverAuthenticator.this, DriverSerchMain.class);
                     startActivity(driverIntent);
 
                     Toast.makeText(DriverAuthenticator.this, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show();

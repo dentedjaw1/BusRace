@@ -29,12 +29,14 @@ public class UserBookedActivity extends AppCompatActivity {
 
     private String getType;
 
+    String name;
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
 
-    private String name;
+
     private String phone;
     String sitNumber,sitNumberBooking;
+
 //    String sitnumberNum;
 
 //    String whereToGo,whereFrom,date, time,carNumber,carColor;
@@ -50,13 +52,14 @@ public class UserBookedActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-
+        getUserInformation();
 
 
 
         databaseReference.child("Users").child("Customers").child(mAuth.getCurrentUser().getUid()).child("Booking").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
 
                 // создаем блок с информацией
                 LinearLayout infoContainer = findViewById(R.id.info_container);
@@ -80,6 +83,8 @@ public class UserBookedActivity extends AppCompatActivity {
                     final String whereFrom = thirdSnapshot.child("WhereFrom").getValue(String.class);
                     final String whereToGo = thirdSnapshot.child("WhereToGo").getValue(String.class);
 
+//                    final String booking = thirdSnapshot.child("Booking").getValue(String.class);
+
 //                     carColor = thirdSnapshot.child("CarColor").getValue(String.class);
 //                     carNumber = thirdSnapshot.child("CarNumber").getValue(String.class);
 //                     time = thirdSnapshot.child("Time").getValue(String.class);
@@ -87,6 +92,7 @@ public class UserBookedActivity extends AppCompatActivity {
 //
 //                     whereFrom = thirdSnapshot.child("WhereFrom").getValue(String.class);
 //                     whereToGo = thirdSnapshot.child("WhereToGo").getValue(String.class);
+
 
 
                     final String[] sitnumberNum = new String[1];
@@ -109,8 +115,34 @@ public class UserBookedActivity extends AppCompatActivity {
                         }
                     });
 
+                    final String[] bookingStatus = new String[1];
 
-                    getUserInformation();
+
+
+//                    final String[] bookedStatus = new String[1];
+//
+//                    databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            bookedStatus[0] = dataSnapshot.child("SitNumberBooking").getValue(String.class);
+//                            // сохраняем значение в переменную
+//                            TextView cView = new TextView(getApplicationContext());
+//                            cView.setText("Цвет машины: " + bookedStatus[0]);
+//                            cView.setTextSize(16);
+//                            infoBlock.addView(cView);
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError error) {
+//                            // обработка ошибки
+//                        }
+//                    });
+
+
+
+
+
 
                     // создаем элементы для отображения информации
                     TextView whereView = new TextView(getApplicationContext());
@@ -135,6 +167,16 @@ public class UserBookedActivity extends AppCompatActivity {
                     infoBlock.addView(colorView);
 
 
+                    TextView bookedView = new TextView(getApplicationContext());
+                    bookedView.setText("Состояние " + name);
+                    bookedView.setTextSize(16);
+                    infoBlock.addView(bookedView);
+
+
+
+
+
+
 //                    TextView cView = new TextView(getApplicationContext());
 //                    cView.setText("Цвет машины: " + sitnumberNum);
 //                    cView.setTextSize(16);
@@ -149,9 +191,7 @@ public class UserBookedActivity extends AppCompatActivity {
                     // добавляем блок с информацией в контейнер
                     infoContainer.addView(infoBlock);
 
-                    infoButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+
 
                             infoButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -159,7 +199,7 @@ public class UserBookedActivity extends AppCompatActivity {
 
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(UserBookedActivity.this);
-                                    builder.setMessage("Вы хотите ОТМЕНИТЬ бронирование на " + date+ "?")
+                                    builder.setMessage("Вы хотите ОТМЕНИТЬ бронирование на " + name+ "?")
                                             .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -216,8 +256,6 @@ public class UserBookedActivity extends AppCompatActivity {
                                     dialog.show();
                                 }
                             });
-                        }
-                    });
 
 
                 }
@@ -239,21 +277,22 @@ public class UserBookedActivity extends AppCompatActivity {
     }
 
 
-    private void getUserInformation() {
-        databaseReference.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+    public void getUserInformation() {
+        databaseReference.child("Users").child("Customers").child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                     if (getType.equals("Customers")) {
-                        name = dataSnapshot.child("name").getValue().toString();
-                        phone = dataSnapshot.child("phone").getValue().toString();
+                        name = dataSnapshot.child("name").getValue(String.class);
+
+                        phone = dataSnapshot.child("phone").getValue(String.class);
+
 
                         // использование переменных name и phone
 //                        TextView nameTextView = findViewById(R.id.name_user);
 //                        nameTextView.setText(name);
 //
-//                        TextView phoneTextView = findViewById(R.id.phone_user);
-//                        phoneTextView.setText(phone);
+
 
 
                     }

@@ -113,6 +113,7 @@ public class SerchActivity extends AppCompatActivity {
 
 
 
+
         // добавляем слушатель изменений для первого списка
         spinnerRace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -148,11 +149,15 @@ public class SerchActivity extends AppCompatActivity {
 
 
 
+
         // получаем ссылку на блок с информацией
         View infoBlock = findViewById(R.id.info_block);
 // устанавливаем его видимость в значение View.GONE
         infoBlock.setVisibility(View.GONE);
 
+
+        spinnerChild.setSelection(0); // устанавливаем начальное значение списка
+        selectedChild = "Выберите расу";
         spinnerChild.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -166,6 +171,7 @@ public class SerchActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         listThird.clear();
+
                         for(DataSnapshot thirdSnapshot: dataSnapshot.getChildren()) {
                             String thirdName = thirdSnapshot.getKey();
                             listThird.add(thirdName);
@@ -191,7 +197,8 @@ public class SerchActivity extends AppCompatActivity {
 
 
 
-
+        spinnerThird.setSelection(0); // устанавливаем начальное значение списка
+        selectedDate = "Выберите расу";
         spinnerThird.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {

@@ -69,10 +69,10 @@ public class SettingsActivity extends AppCompatActivity {
         nameET = (EditText) findViewById(R.id.name);
         phoneET = (EditText) findViewById(R.id.phone);
 
-        carET = (EditText) findViewById(R.id.carname);
-        if(getType.equals("Drivers")){
-            carET.setVisibility(View.VISIBLE);
-        }
+//        carET = (EditText) findViewById(R.id.carname);
+//        if(getType.equals("Drivers")){
+//            carET.setVisibility(View.VISIBLE);
+//        }
 
         closeBtn = (ImageView) findViewById(R.id.close_button);
         saveBtn = (ImageView)findViewById(R.id.save_button);
@@ -82,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(getType.equals("Drivers")){
-                    startActivity(new Intent(SettingsActivity.this, DriversMapActivity.class));
+                    startActivity(new Intent(SettingsActivity.this, DriverSerchMain.class));
                 }
                 else {
                     startActivity(new Intent(SettingsActivity.this, SerchActivity.class));
@@ -123,14 +123,14 @@ public class SettingsActivity extends AppCompatActivity {
         else if(TextUtils.isEmpty(phoneET.getText().toString())){
             Toast.makeText(this, "Заполните поле номер", Toast.LENGTH_SHORT).show();
         }
-        else if(getType.equals("Drivers") && TextUtils.isEmpty(carET.getText().toString())){
-            Toast.makeText(this, "Заполните марку автомобиля", Toast.LENGTH_SHORT).show();
-        }
+//        else if(getType.equals("Drivers") && TextUtils.isEmpty(carET.getText().toString())){
+//            Toast.makeText(this, "Заполните марку автомобиля", Toast.LENGTH_SHORT).show();
+//        }
         else {
             HashMap<String, Object> userMap = new HashMap<>();
             userMap.put("uid",mAuth.getCurrentUser().getUid());
             userMap.put("name", nameET.getText().toString());
-            userMap.put("phone",phoneET.getText().toString());
+//            userMap.put("phone",phoneET.getText().toString());
 
 //            if (getType.equals("Drivers")){
 //                userMap.put("carname",carET.getText().toString());
@@ -140,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (getType.equals("Drivers"))
             {
-                startActivity(new Intent(SettingsActivity.this, DriversMapActivity.class));
+                startActivity(new Intent(SettingsActivity.this, DriverSerchMain.class));
             }else {
                 startActivity(new Intent(SettingsActivity.this, SerchActivity.class));
             }
@@ -163,12 +163,12 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        String carname = dataSnapshot.child("carname").getValue().toString();
+//                        String carname = dataSnapshot.child("carname").getValue().toString();
                         String name = dataSnapshot.child("name").getValue().toString();
                         String phone = dataSnapshot.child("phone").getValue().toString();
                         nameET.setText(name);
                         phoneET.setText(phone);
-                        carET.setText(carname);
+//                        carET.setText(carname);
                     }
 
 //                    if (getType.equals("Drivers")) {
