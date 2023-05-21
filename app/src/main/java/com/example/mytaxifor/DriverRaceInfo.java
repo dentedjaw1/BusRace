@@ -35,7 +35,7 @@ public class DriverRaceInfo extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
 
-    private Button driverMapButton;
+    private Button driverMapButton,endRaceButton;
     private TextView carColorTextView,timeTextView, dateTextView, sitNumberTextView,sitNumberBookingTextView, whereFromView, whereToGoView;
 
     private String name;
@@ -55,6 +55,7 @@ public class DriverRaceInfo extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         driverMapButton = (Button) findViewById(R.id.driver_map);
+        endRaceButton = (Button) findViewById(R.id.end_race_button);
 
         // получаем переданные данные
         Intent intent = getIntent();
@@ -99,21 +100,103 @@ public class DriverRaceInfo extends AppCompatActivity {
         });
 
 
+        endRaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DriverRaceInfo.this);
+                builder.setMessage("Вы хотите ЗАКОНЧИТЬ рейс? ")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).removeValue();
+                                        databaseReference.child("Races").child(whereFrom).child(whereToGo).child(date).child(time).removeValue();
+                                        databaseReference.child("Users").child("Drivers").child(mAuth.getCurrentUser().getUid()).child("RacesOn").child(date+" Time: "+time).removeValue();
+
+
+                                        for (DataSnapshot thirdSnapshot : dataSnapshot.getChildren()) {
+                                            String uidCustomer = thirdSnapshot.getKey();
+
+                                            final String[] userBonusST = new String[1];
+
+
+                                            databaseReference.child("Users").child("Customers").child(uidCustomer).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    userBonusST[0] = dataSnapshot.child("bonusPoints").getValue(String.class);
+
+                                                    Integer bonusPointsPlus = Integer.parseInt(userBonusST[0]);
+                                                    bonusPointsPlus = bonusPointsPlus + 45;
+                                                    String bonusPointsPlusString = Integer.toString(bonusPointsPlus);
+
+                                                    HashMap<String, Object> usersMap = new HashMap<>();
+                                                    usersMap.put("bonusPoints", bonusPointsPlusString);//8
+                                                    databaseReference.child("Users").child("Customers").child(uidCustomer).updateChildren(usersMap);
+                                                    return;
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError error) {
+                                                    // обработка ошибки
+                                                }
+                                            });
+
+                                            databaseReference.child("Users").child("Customers").child(uidCustomer).child("Booking").child(date).removeValue();
+
+
+
+
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                                startActivity(new Intent(DriverRaceInfo.this, DriverSerchMain.class));
+                            }
+                        })
+                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Ничего не делаем, просто закрываем диалог
+
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
+
+
+
         databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // создаем блок с информацией
-                LinearLayout infoContainer = findViewById(R.id.info_container);
-                // Удаляем все дочерние элементы из контейнера
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot){
+                                            // создаем блок с информацией
+                                            LinearLayout infoContainer = findViewById(R.id.info_container);
+                                            // Удаляем все дочерние элементы из контейнера
 //                infoContainer.removeAllViews();
 
                 for (DataSnapshot thirdSnapshot : dataSnapshot.getChildren()) {
 
-
-//                    String phone = thirdSnapshot.child("phone").getValue().toString();
+                    //String phone = thirdSnapshot.child("phone").getValue().toString();
 //                    final String phone = thirdSnapshot.child("Phone").getValue(String.class);
-                    String childName = thirdSnapshot.getKey();
+                    String childName = thirdSnapshot.child("Phone").getValue(String.class);
                     bookingStatus = thirdSnapshot.child("Booking").getValue(String.class);
+                    String uidCustomer = thirdSnapshot.getKey();
 
                     LinearLayout infoBlock = new LinearLayout(getApplicationContext());
                     infoBlock.setOrientation(LinearLayout.VERTICAL);
@@ -208,7 +291,7 @@ public class DriverRaceInfo extends AppCompatActivity {
                             raceMap.put("Booking","Подтвержден");
 
 
-                            databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(childName).updateChildren(raceMap);
+                            databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(uidCustomer).updateChildren(raceMap);
 
 
                         }
@@ -259,8 +342,8 @@ public class DriverRaceInfo extends AppCompatActivity {
 
 
 
-//                                            databaseReference.child("Users").child("Customers").child(mAuth.getCurrentUser().getUid()).child("Booking").child(date).removeValue();
-                                            databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(childName).removeValue();
+                                            databaseReference.child("Users").child("Customers").child(uidCustomer).child("Booking").child(date).removeValue();
+                                            databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(uidCustomer).removeValue();
 
                                             Toast.makeText(DriverRaceInfo.this, "Бронирование отменено", Toast.LENGTH_SHORT).show();
 

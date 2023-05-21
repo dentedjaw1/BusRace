@@ -116,8 +116,6 @@ public class BookingActivity extends AppCompatActivity {
                         // Получаем ссылку на базу данных
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-
-
                         // Добавляем ДАННЫЕ в RACE в базу данных
                         HashMap<String, Object> raceMap = new HashMap<>();
 //                        userMap.put("uid",mAuth.getCurrentUser().getUid());
@@ -129,7 +127,7 @@ public class BookingActivity extends AppCompatActivity {
                         raceMap.put("Booking","Забронирован");
 
 
-                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).updateChildren(raceMap);
+                        databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(mAuth.getCurrentUser().getUid()).updateChildren(raceMap);
 
 
                         // Добавляем ДАННЫЕ в Users в базу данных

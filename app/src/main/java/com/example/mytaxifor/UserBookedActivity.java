@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,15 +33,13 @@ public class UserBookedActivity extends AppCompatActivity {
     String name;
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
+    final String[] sitNumberNum = new String[1];
+    final String[] bonusNumber = new String[1];
 
-
-    private String phone;
+    private String phone, bonusUser;
     String sitNumber,sitNumberBooking;
 
-//    String sitnumberNum;
-
-//    String whereToGo,whereFrom,date, time,carNumber,carColor;
-
+    private int bonusUserPoints, bonusRacePoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +64,11 @@ public class UserBookedActivity extends AppCompatActivity {
                 LinearLayout infoContainer = findViewById(R.id.info_container);
                 // Удаляем все дочерние элементы из контейнера
                 infoContainer.removeAllViews();
+
+
+
+//                    String bonusPointsPlusString = Integer.toString(bonusPointsPlus);
+
 
                 for(DataSnapshot thirdSnapshot: dataSnapshot.getChildren()) {
 
@@ -95,17 +99,53 @@ public class UserBookedActivity extends AppCompatActivity {
 
 
 
-                    final String[] sitnumberNum = new String[1];
+                    LinearLayout buttonsLayout = new LinearLayout(getApplicationContext());
+                    buttonsLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+
+                    Button infoButton = new Button(getApplicationContext());
+                    infoButton.setText("Отменить");
+                    infoButton.setBackground(getResources().getDrawable(R.color.greyButton)); // устанавливаем зеленый фон
+                    LinearLayout.LayoutParams lp3 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f); // ширина равна 1/2 экрана
+                    lp3.gravity = Gravity.CENTER_VERTICAL; // выравниваем по вертикали
+                    lp3.height = 130; // задаем высоту кнопки в пикселях
+                    infoButton.setLayoutParams(lp3);
+                    buttonsLayout.addView(infoButton);
+
+                    Button bonusButton = new Button(getApplicationContext());
+                    bonusButton.setText("Оплатить бонусами");
+                    bonusButton.setBackground(getResources().getDrawable(R.color.green)); // устанавливаем зеленый фон
+                    LinearLayout.LayoutParams lp1 = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f); // ширина равна 1/2 экрана
+                    lp1.gravity = Gravity.CENTER_VERTICAL; // выравниваем по вертикали
+                    lp1.height = 130; // задаем высоту кнопки в пикселях
+                    bonusButton.setLayoutParams(lp1);
+                    bonusButton.setVisibility(View.GONE);
+                    buttonsLayout.addView(bonusButton);
+
+
+
+
 
                     databaseReference.child("Races").child(whereFrom).child(whereToGo).child(date).child(time).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                             sitnumberNum[0] = dataSnapshot.child("SitNumberBooking").getValue(String.class);
-                            // сохраняем значение в переменную
-//                            TextView cView = new TextView(getApplicationContext());
-//                            cView.setText("Цвет машины: " + sitnumberNum[0]);
-//                            cView.setTextSize(16);
-//                            infoBlock.addView(cView);
+                             sitNumberNum[0] = dataSnapshot.child("SitNumberBooking").getValue(String.class);
+                             bonusNumber[0] = dataSnapshot.child("BonusNumber").getValue(String.class);
+
+                             bonusRacePoints = Integer.parseInt(bonusNumber[0]);
+
+                            TextView colorView = new TextView(getApplicationContext());
+                            colorView.setText("Нужное количество бонусов: " + bonusRacePoints);
+                            colorView.setTextSize(16);
+                            infoBlock.addView(colorView);
+
+                            if (bonusRacePoints < bonusUserPoints){
+                                bonusButton.setVisibility(View.VISIBLE);
+
+
+                            }
+
+                            // String bonusPointsPlusString = Integer.toString(bonusRacePoints);
 
                         }
 
@@ -115,33 +155,28 @@ public class UserBookedActivity extends AppCompatActivity {
                         }
                     });
 
-                    final String[] bookingStatus = new String[1];
+
+                    final String[] bookedStatus = new String[1];
+
+                    databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            bookedStatus[0] = dataSnapshot.child("Booking").getValue(String.class);
+                            // сохраняем значение в переменную
+                            TextView cView = new TextView(getApplicationContext());
+                            cView.setText("Состояние: " + bookedStatus[0]);
+                            cView.setTextSize(16);
+                            infoBlock.addView(cView);
 
 
 
-//                    final String[] bookedStatus = new String[1];
-//
-//                    databaseReference.child("Race").child(whereFrom).child(whereToGo).child(date).child(time).child(phone).addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            bookedStatus[0] = dataSnapshot.child("SitNumberBooking").getValue(String.class);
-//                            // сохраняем значение в переменную
-//                            TextView cView = new TextView(getApplicationContext());
-//                            cView.setText("Цвет машины: " + bookedStatus[0]);
-//                            cView.setTextSize(16);
-//                            infoBlock.addView(cView);
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError error) {
-//                            // обработка ошибки
-//                        }
-//                    });
+                        }
 
-
-
-
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // обработка ошибки
+                        }
+                    });
 
 
                     // создаем элементы для отображения информации
@@ -167,33 +202,30 @@ public class UserBookedActivity extends AppCompatActivity {
                     infoBlock.addView(colorView);
 
 
-                    TextView bookedView = new TextView(getApplicationContext());
-                    bookedView.setText("Состояние " + name);
-                    bookedView.setTextSize(16);
-                    infoBlock.addView(bookedView);
 
 
 
-
-
-
-//                    TextView cView = new TextView(getApplicationContext());
-//                    cView.setText("Цвет машины: " + sitnumberNum);
-//                    cView.setTextSize(16);
-//                    infoBlock.addView(cView);
-
+//                    TextView colorView1 = new TextView(getApplicationContext());
+//                    colorView1.setText("Цвет машины: " + bonusRacePoints);
+//                    colorView1.setTextSize(16);
+//                    infoBlock.addView(colorView1);
 //
+//                    TextView colorView2 = new TextView(getApplicationContext());
+//                    colorView2.setText("Цвет машины: " + bonusUserPoints);
+//                    colorView2.setTextSize(16);
+//                    infoBlock.addView(colorView2);
 
-                    Button infoButton = new Button(getApplicationContext());
-                    infoButton.setText("Отменить бронирование");
-                    infoBlock.addView(infoButton);
+
+//                    bonusUserPoints bonusRacePoints
 
                     // добавляем блок с информацией в контейнер
                     infoContainer.addView(infoBlock);
+                    infoContainer.addView(buttonsLayout);
 
 
 
-                            infoButton.setOnClickListener(new View.OnClickListener() {
+//                   // Кнопка отмены бронирования
+                    infoButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
 
@@ -208,7 +240,7 @@ public class UserBookedActivity extends AppCompatActivity {
 
 
                                                     //прибавляем один, так как произошла отменили бронирование
-                                                   int  sitNumberBookingPlus = Integer.parseInt(sitnumberNum[0]);
+                                                   int  sitNumberBookingPlus = Integer.parseInt(sitNumberNum[0]);
                                                     sitNumberBookingPlus =  sitNumberBookingPlus + 1;
                                                     String sitNumberBookingPlusString = Integer.toString(sitNumberBookingPlus);
 
@@ -258,14 +290,24 @@ public class UserBookedActivity extends AppCompatActivity {
                             });
 
 
+                    // Кнопка платежа бонусами
+                    bonusButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+
+                        }
+                    });
+
+
                 }
                 // получаем ссылку на блок с информацией
                 View infoBlock = findViewById(R.id.info_block);
                 // устанавливаем его видимость в значение View.VISIBLE
                 infoBlock.setVisibility(View.VISIBLE);
-
-                // получаем ссылку на элемент заголовка блока с информацией
-                TextView infoTitle = findViewById(R.id.info_title);
+//
+//                // получаем ссылку на элемент заголовка блока с информацией
+//                TextView infoTitle = findViewById(R.id.info_title);
             }
 
 
@@ -284,19 +326,11 @@ public class UserBookedActivity extends AppCompatActivity {
                 if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
                     if (getType.equals("Customers")) {
                         name = dataSnapshot.child("name").getValue(String.class);
-
                         phone = dataSnapshot.child("phone").getValue(String.class);
-
-
-                        // использование переменных name и phone
-//                        TextView nameTextView = findViewById(R.id.name_user);
-//                        nameTextView.setText(name);
-//
-
-
+                        bonusUser = dataSnapshot.child("bonusPoints").getValue(String.class);
+                        bonusUserPoints = Integer.parseInt(bonusUser);
 
                     }
-
                 }
             }
 

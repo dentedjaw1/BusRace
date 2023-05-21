@@ -126,7 +126,9 @@ public class CustomerAuthenticator extends AppCompatActivity {
                             .child("Users").child("Customers").child(OnlineCustomerId);
                     CustomerDatabaseRef.setValue(true);//подверждение
 
-                    Intent customerIntent = new Intent(CustomerAuthenticator.this, CustomersMapActivity.class);
+                    CustomerDatabaseRef.child("bonusPoints").setValue("0");
+
+                    Intent customerIntent = new Intent(CustomerAuthenticator.this, SerchActivity.class);
                     startActivity(customerIntent);
 
                     Toast.makeText(CustomerAuthenticator.this, "Регистрация прошла успешно", Toast.LENGTH_SHORT).show();

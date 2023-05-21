@@ -41,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private CircleImageView circleImageView;
     private EditText nameET, phoneET, carET;
+    private TextView bonusPointsTW;
     private ImageView closeBtn, saveBtn;
     private TextView imageChangeBtn;
 
@@ -52,6 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
     private StorageTask uploadTask;
     private StorageReference storageProfileImageRef;
     private String checker = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         circleImageView = (CircleImageView)findViewById(R.id.profile_image);
         nameET = (EditText) findViewById(R.id.name);
         phoneET = (EditText) findViewById(R.id.phone);
+        bonusPointsTW = (TextView) findViewById(R.id.bonus_points);
 
 //        carET = (EditText) findViewById(R.id.carname);
 //        if(getType.equals("Drivers")){
@@ -130,8 +133,8 @@ public class SettingsActivity extends AppCompatActivity {
             HashMap<String, Object> userMap = new HashMap<>();
             userMap.put("uid",mAuth.getCurrentUser().getUid());
             userMap.put("name", nameET.getText().toString());
-//            userMap.put("phone",phoneET.getText().toString());
-
+            userMap.put("phone",phoneET.getText().toString());
+//            userMap.put("bonusPoints", bonusPoints);
 //            if (getType.equals("Drivers")){
 //                userMap.put("carname",carET.getText().toString());
 //            }
@@ -152,14 +155,16 @@ public class SettingsActivity extends AppCompatActivity {
         databaseReference.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0)
+                if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>1)
                 {
 
                     if (getType.equals("Customers")) {
                         String name = dataSnapshot.child("name").getValue().toString();
                         String phone = dataSnapshot.child("phone").getValue().toString();
+                        String bonusPoints = dataSnapshot.child("bonusPoints").getValue(String.class);
                         nameET.setText(name);
                         phoneET.setText(phone);
+                        bonusPointsTW.setText(bonusPoints);
                     }
                     else
                     {

@@ -8,8 +8,10 @@
     tools:context=".DriverRaceInfo">
 
 
+
     <RelativeLayout
         style="@style/parent">
+
 
 
         <LinearLayout
@@ -18,11 +20,23 @@
             android:layout_alignParentTop="true"
             android:weightSum="12">
 
+
             <LinearLayout
                 style="@style/parent"
                 android:background="@drawable/login_shape_bk"
                 android:orientation="vertical"
                 android:layout_weight="3">
+
+                <Button
+                    android:id="@+id/end_race_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/login_shape_2"
+                    android:stateListAnimator="@null"
+                    android:text="Закончить рейс"
+                    android:textColor="@color/white"
+                   />
 
                 <ImageView
                     style="@style/parent"
@@ -42,12 +56,15 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp">
 
+
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal">
+
 
                 <TextView
                     android:id="@+id/where_from_text_view"
@@ -85,8 +102,7 @@
         android:layout_width="match_parent"
         app:flow_horizontalAlign="center"
         android:layout_height="match_parent"
-        android:layout_marginTop="170dp"
-
+        android:layout_marginTop="120dp"
         >
 
         <TextView
